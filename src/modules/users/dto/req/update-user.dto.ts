@@ -1,24 +1,13 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
+
+import { AgeValid } from '../../decorators/age-valid.decorator';
 
 export class UpdateUserDto {
-  @ApiPropertyOptional({
-    description: 'The updated name of the user',
-    type: String,
-    example: 'Jane Doe',
-  })
   name?: string;
 
-  @ApiPropertyOptional({
-    description: 'The updated age of the user',
-    type: String,
-    example: '31',
-  })
-  age?: string;
+  @AgeValid()
+  @IsOptional()
+  public readonly age?: number;
 
-  @ApiPropertyOptional({
-    description: 'The updated phone number of the user',
-    type: String,
-    example: '+0987654321',
-  })
   phone?: string;
 }

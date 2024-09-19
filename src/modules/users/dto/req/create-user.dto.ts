@@ -1,40 +1,51 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsArray,
+  IsEmail,
+  IsNotIn,
+  IsOptional,
+  IsString,
+  Length,
+  Matches,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
+
+import { TransformHelper } from '../../../../common/helpers/transform.helper';
+import { CreatePostDto } from '../../../posts/dto/req/create-post.dto';
+import { AgeValid } from '../../decorators/age-valid.decorator';
 
 export class CreateUserDto {
-  @ApiProperty({
-    description: 'The name of the user',
-    type: String,
-    example: 'John Doe',
-  })
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toLowerCase)
+  @IsString()
+  @Length(2, 20)
   public readonly name: string;
 
-  @ApiProperty({
-    description: 'The email address of the user',
-    type: String,
-    example: 'john.doe@example.com',
-  })
+  @IsString()
+  @IsEmail()
   public readonly email: string;
 
-  @ApiProperty({
-    description: 'The password for the user account',
-    type: String,
-    example: 'securepassword123',
+  @Transform(TransformHelper.trim)
+  @IsNotIn(['password', 'qwe', '123'])
+  @IsString()
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+    message: 'Incorrect password',
   })
   public readonly password: string;
 
-  @ApiProperty({
-    description: 'The age of the user',
-    type: Number,
-    required: false,
-    example: 30,
-  })
-  public readonly age?: number;
+  @AgeValid()
+  public readonly age: number;
 
-  @ApiProperty({
-    description: 'The phone number of the user',
-    type: String,
-    required: false,
-    example: '+1234567890',
-  })
+  @Transform(TransformHelper.trim)
+  @IsString()
+  @ValidateIf((obj) => obj.age === 35)
+  @IsOptional()
   public readonly phone?: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => CreatePostDto)
+  @IsArray()
+  @IsOptional()
+  public posts?: CreatePostDto[];
 }
