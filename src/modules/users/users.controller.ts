@@ -56,6 +56,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
+  // @ApiOkResponse({ type: PrivateUserResDto })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiConflictResponse({ description: 'Conflict' })
