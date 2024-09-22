@@ -1,7 +1,9 @@
+
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import configuration from '../config/configuration';
+import { PostgresModule } from './postgres/postgres.module';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 
@@ -11,6 +13,7 @@ import { UsersModule } from './users/users.module';
       load: [configuration],
       isGlobal: true, //змінні будуть доступні в кожному з модулів
     }),
+    PostgresModule,
     UsersModule,
     PostsModule,
   ],
