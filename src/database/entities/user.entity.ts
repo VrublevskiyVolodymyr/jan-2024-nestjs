@@ -22,4 +22,13 @@ export class UserEntity {
 
   @Column('boolean', { default: false })
   isVerified: boolean;
+
+  @Column('boolean', { default: false })
+  isUpdated: boolean;
+
+  @Column('boolean', { default: false })
+  isLogin: boolean;
+
+  @Column('boolean', { default: false })
+  isAdmin: boolean;
 }

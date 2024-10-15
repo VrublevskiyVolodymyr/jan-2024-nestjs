@@ -1,7 +1,6 @@
 import * as path from 'node:path';
 
 import * as dotenv from 'dotenv';
-import * as process from 'process';
 import { DataSource } from 'typeorm';
 
 import getter from './src/config/configuration';

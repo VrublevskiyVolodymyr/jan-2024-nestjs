@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Config, PostgresConfig } from '../../config/config.type';
-import * as process from "process";
 
 @Module({
   imports: [
